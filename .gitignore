@@ -1,40 +1,54 @@
-# Ignore build directories
-build/
-cmake-build-*/
-out/
-bin/
-obj/
-data/
-
-
-# Ignore compiled object files and binaries
+# Compiled object files
 *.o
 *.obj
+
+data/
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
 *.so
 *.dll
+*.dylib
+
+# Executable files
 *.exe
 *.out
-*.a
-*.lib
+*.app
 
-# Ignore dependency files
-*.d
+# Debug files
+*.dSYM/
+*.stackdump
 
-# Ignore IDE/project files
-.vscode/
+# CMake build folders
+/build/
+cmake-build-*/
+
+# Visual Studio files
+*.vcxproj*
+*.sln
+*.user
+*.opensdf
+*.sdf
+*.VC.db
+
+# Qt Creator
+*.pro.user
+*.qmake.stash
+
+# Code::Blocks
+*.depend
+*.layout
+
+# CLion
 .idea/
-*.sublime-workspace
-*.sublime-project
+*.iml
 
-# Ignore OS generated files
+# Other
+*.log
+*.tmp
+*.swp
 .DS_Store
 Thumbs.db
-
-# Ignore log files
-*.log
-
-# Ignore CMake files
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
