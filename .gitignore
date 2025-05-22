@@ -1,7 +1,6 @@
 # Compiled object files
 *.o
 *.obj
-
 data/
 
 # Precompiled Headers
@@ -33,6 +32,7 @@ cmake-build-*/
 *.opensdf
 *.sdf
 *.VC.db
+.vscode/
 
 # Qt Creator
 *.pro.user

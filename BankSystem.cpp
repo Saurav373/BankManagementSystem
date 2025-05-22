@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "helper.hpp"
+#include "bankSystem.hpp"
 
 using namespace std;
 
@@ -13,29 +14,6 @@ class BankSystem {
     string password;
     double balance;
     
-
-    void saveUserDetails() {
-        this->AccountNumber = ++CurrAccNumber;
-        this->balance = 0.0;
-        ofstream UserFile;
-        UserFile.open("./data/Users/" + to_string(this->AccountNumber) + ".txt");
-
-        if (!UserFile.is_open()) {
-            cout << "Error in Saving Info!"<<endl;
-            CurrAccNumber--;
-            return;
-        }
-
-        UserFile << "Fname : " << Fname << '\n';
-        UserFile << "Lname : " << Lname << '\n';
-        UserFile << "Email : " << email << '\n';
-        UserFile << "PhoneNo : " << phoneNo << '\n';
-        UserFile << "AccountNo : " << AccountNumber << '\n';
-        UserFile << "Password : " << password << '\n';
-        UserFile.close();
-
-        helper::saveLastAccountNumber(CurrAccNumber);
-    }
 
    public:
     string Fname;
@@ -73,14 +51,14 @@ class BankSystem {
             return;
         }
 
-        saveUserDetails();
+        helper::saveUserDetails(Fname, Lname, email,password,phoneNo,CurrAccNumber);
         cout << "Account Successfully Created!"<<endl;
         cout<<"AccountNumber -> "<<this->AccountNumber<<endl;
+        CurrAccNumber++;
     }
     
-    bool login(long long AccountNumber,string password){
-        return helper::verifyUser(AccountNumber,password);
+    void depositMoney(double amount){
+        
     }
-    
     ~BankSystem() { helper::saveLastAccountNumber(CurrAccNumber); }
 };
