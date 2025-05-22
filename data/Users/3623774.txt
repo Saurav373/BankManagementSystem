@@ -1,6 +1,0 @@
-Fname : Saurav
-Lname : Kattel
-Email : abc@gmail.com
-PhoneNo : 9842407520
-AccountNo : 3623774
-Password : 123456
