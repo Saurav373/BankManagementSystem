@@ -10,15 +10,16 @@ class BankSystem {
     string email;
     string password;
     double balance;
-    void saveUserDetails();
+    
 
    public:
-    BankSystem(string Fname, string Lname, string phoneNo, string email, string password) {};
+    BankSystem(string Fname, string Lname, string phoneNo, string email, string password);
     string Fname;
     string Lname;
     long long int AccountNumber;
     void registerUser();
-    void depositMoney(double amount);
+    void deposit(double amount,long long accountNumber);
+    void withdraw(double amount,long long accountNumber);
 };
 }  // namespace bankSystem
 #endif
