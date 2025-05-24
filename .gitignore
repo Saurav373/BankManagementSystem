@@ -2,6 +2,7 @@
 *.o
 *.obj
 data/
+.clang-format
 
 # Precompiled Headers
 *.gch
