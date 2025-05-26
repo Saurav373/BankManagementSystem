@@ -1,8 +1,6 @@
-#include "bankSystem.hpp"
-
 #include <fstream>
 #include <iostream>
-
+#include "bankSystem.hpp"
 #include "helper.hpp"
 #include "userAuth.hpp"
 
@@ -14,7 +12,6 @@ namespace bankSystem {
 
 void BankSystem::registerUser(string Fname, string Lname, string phoneNo,
                               string email, string password) {
-    system("cls");
     if (!Fname.length()) {
         cout << "First Name Required!" << endl;
         return;
@@ -72,7 +69,7 @@ bool BankSystem::login(long long accountNumber, string password) {
     return false;
 }
 void BankSystem::withdraw(double amount) {
-    if (!isLoggedIn) {
+    if (!this->isLoggedIn) {
         cout << "Please Login To withdraw!";
         return;
     }
