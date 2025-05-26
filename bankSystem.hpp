@@ -6,8 +6,6 @@ using namespace std;
 namespace bankSystem {
 class BankSystem {
    private:
-    string phoneNo;
-    string email;
     string password;
     double balance;
     bool isLoggedIn;
@@ -15,6 +13,8 @@ class BankSystem {
    public:
     string Fname;
     string Lname;
+    string phoneNo;
+    string email;
     long long int AccountNumber;
     void registerUser(string Fname, string Lname, string phoneNo, string email, string password);
     void deposit(long long accountNumber,double amount);
