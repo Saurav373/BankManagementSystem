@@ -1,6 +1,8 @@
+#include <chrono>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <vector>
 using namespace std;
 
@@ -8,10 +10,15 @@ namespace helper {
 
 long long int getLastAccount() {
     ifstream lastAccNum("./data/lastAccNum.txt");
-    if (!lastAccNum)
+    if (!lastAccNum){
+        ofstream lastAccNum("./data/lastAccNum.txt");
+        lastAccNum<< 158694689012;
+        lastAccNum.close();
         return 158694689012;
+    }
     long long int AccNum;
     lastAccNum >> AccNum;
+    lastAccNum.close();
     return AccNum;
 };
 
@@ -103,7 +110,13 @@ void createStatement(long long accountNumber, string type, double amount) {
         cout << "Error in Depositing Money!";
         return;
     }
-    file << left << setw(15) << "[2025-09-06]" << setw(12) << amount << type << '\n';
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    ostringstream oss;
+    oss << std::put_time(std::localtime(&now_time), "%Y-%m-%d");
+    string date = oss.str();
+    file << left << setw(15) << ("[" + date + "]") << setw(10) << amount << "  " << type << '\n';
+
     file.close();
     return;
 }
