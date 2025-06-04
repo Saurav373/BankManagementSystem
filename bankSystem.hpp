@@ -20,6 +20,7 @@ class BankSystem {
     void deposit(long long accountNumber,double amount);
     void withdraw(double amount);
     bool login(long long accountNumber,string password);
+    void getStatement();
 };
 }  // namespace bankSystem
 #endif

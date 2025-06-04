@@ -7,7 +7,7 @@ namespace helper {
     long long int getLastAccount();
     void saveLastAccountNumber(long long AccountNo);
     string getValue(long long AccountNumber, string key);
-    void updateValue(long long accountNumber,string key,string value);
+    bool updateValue(long long accountNumber,string key,string value);
     void createStatement(long long accountNumber, string type,double amount);
     void generateStatementTempelate(long long AccountNumber);
     long long saveUserDetails(string Fname, string Lname, string email, string password, string phoneNo,long long AccountNumber);
