@@ -1,12 +1,34 @@
+#include <filesystem>
 #include <iostream>
-#include<limits>
+#include <limits>
+#include <fstream>
 #include "bankSystem.hpp"
 using namespace std;
 
-void createDBFolderStructure(){
+void createDBFolderStructure() {
+    filesystem::path usersDir("data/Users");
+    filesystem::path statementsDir("data/Statements");
+    // lastAccNum.txt
     
+    if (!exists(usersDir)) {
+        create_directories(usersDir);
+    }
+    if (!exists(statementsDir)) {
+        create_directories(statementsDir);
+    }
+    ofstream historyFile("data/lastAccNum.txt");
+    if(!historyFile){
+        return;
+    }
+    historyFile.seekp(0, std::ios::end);
+     if (historyFile.tellp() == 0) {
+        // File is empty, write initial value
+        historyFile << "2345986543";
+    }
 }
+
 int greetUser() {
+    
     system("cls");
     int choice;
     cout << "============================================\n";
@@ -20,16 +42,17 @@ int greetUser() {
     cout << "6) Exit\n";
     cout << "\nEnter your choice: ";
     cin >> choice;
-    if(cin.fail()) {
-        cin.clear(); // reset failbit
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // discard bad input
-        choice = -1; // invalid choice
+    if (cin.fail()) {
+        cin.clear();                                          // reset failbit
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');  // discard bad input
+        choice = -1;                                          // invalid choice
     }
     return choice;
     return choice;
 }
 
 int main() {
+    createDBFolderStructure();
     bankSystem::BankSystem User;
     while (true) {
         int choice = greetUser();
@@ -89,13 +112,11 @@ int main() {
             cin >> amt;
             User.withdraw(amt);
             system("pause");
-        }
-        else if(choice == 5){
+        } else if (choice == 5) {
             system("cls");
             User.getStatement();
             system("pause");
-        }
-        else if (choice == 6) {
+        } else if (choice == 6) {
             cout << "Thank you for using NEPAl RASTRYA BANK. Goodbye!\n";
             break;
         }

@@ -11,10 +11,8 @@ namespace helper {
 long long int getLastAccount() {
     ifstream lastAccNum("./data/lastAccNum.txt");
     if (!lastAccNum) {
-        ofstream lastAccNum("./data/lastAccNum.txt");
-        lastAccNum << 158694689012;
-        lastAccNum.close();
-        return 158694689012;
+        cout<<"lastAccNum.txt file missing inside data/ !";
+        return 1784512845;
     }
     long long int AccNum;
     lastAccNum >> AccNum;
