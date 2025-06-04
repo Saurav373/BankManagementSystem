@@ -2,6 +2,7 @@
 #include <iostream>
 #include "bankSystem.hpp"
 #include "helper.hpp"
+#include "bcrypt_cpp.h"
 #include "userAuth.hpp"
 
 using namespace std;
@@ -10,8 +11,7 @@ static long long int CurrAccNumber = helper::getLastAccount() + 1;
 
 namespace bankSystem {
 
-void BankSystem::registerUser(string Fname, string Lname, string phoneNo,
-                              string email, string password) {
+void BankSystem::registerUser(string Fname, string Lname, string phoneNo,string email, string password) {
     if (!Fname.length()) {
         cout << "First Name Required!" << endl;
         return;
@@ -32,12 +32,13 @@ void BankSystem::registerUser(string Fname, string Lname, string phoneNo,
         cout << "PhoneNo Required!" << endl;
         return;
     }
+    string passwordHash = bcrypt::generateHash(password);
     this->Fname = Fname;
     this->Lname = Lname;
     this->email = email;
-    this->password = password;
+    this->password = passwordHash;
     this->phoneNo = phoneNo;
-    this->AccountNumber = helper::saveUserDetails(Fname, Lname, email, password, phoneNo, CurrAccNumber);
+    this->AccountNumber = helper::saveUserDetails(Fname, Lname, email, passwordHash, phoneNo, CurrAccNumber);
     if (this->AccountNumber) {
         cout << "Account Successfully Created!" << endl;
         cout << "AccountNumber -> " << this->AccountNumber << endl;
@@ -50,9 +51,14 @@ void BankSystem::registerUser(string Fname, string Lname, string phoneNo,
 }
 
 void BankSystem::deposit(long long accountNumber, double amount) {
-    helper::updateValue(accountNumber, "Balance", to_string(this->balance + amount));
+    bool result = helper::updateValue(accountNumber, "Balance", to_string(this->balance + amount));
+    if(!result){
+        cout<<"Failed To Deposit!"<<endl;
+        return;
+    }
     helper::createStatement(accountNumber, "DEPOSIT", amount);
     this->balance += amount;
+    cout<<"Deposited Successfully!"<<endl;
 }
 
 bool BankSystem::login(long long accountNumber, string password) {
@@ -70,16 +76,39 @@ bool BankSystem::login(long long accountNumber, string password) {
 }
 void BankSystem::withdraw(double amount) {
     if (!this->isLoggedIn) {
-        cout << "Please Login To withdraw!";
+        cout << "Please Login To withdraw!"<<endl;
         return;
     }
     if (this->balance < amount) {
-        cout << "Insufficient Balance!";
+        cout << "Insufficient Balance!"<<endl;
         return;
     }
     this->balance -= amount;
-    cout<<"Withdraw SuccessFully!";
+    cout<<"Withdraw SuccessFully!"<<endl;
+    cout<<"Remaining Balance : "<<this->balance<<endl;
     helper::createStatement(this->AccountNumber,"WITHDRAW",amount);
+}
+void BankSystem::getStatement(){
+    if(!this->isLoggedIn){
+        cout<<"Login To View Statement !"<<endl;
+        return;
+    }
+
+    ifstream file("./data/Statements/"+to_string(this->AccountNumber)+".txt");
+    if(!file){
+        cout<<"Failed To Access Statement!"<<endl;
+        return;
+    }
+    string data;
+    while(getline(file,data)){
+        cout<<data<<endl;
+    }
+    file.close();
+    cout<<endl;
+    string balance = helper::getValue(this->AccountNumber,"Balance");
+    cout<<"Balance : "<<balance<<endl;
+    cout<<endl;
+    return;
 }
 
 }  // namespace bankSystem

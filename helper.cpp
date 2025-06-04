@@ -10,9 +10,9 @@ namespace helper {
 
 long long int getLastAccount() {
     ifstream lastAccNum("./data/lastAccNum.txt");
-    if (!lastAccNum){
+    if (!lastAccNum) {
         ofstream lastAccNum("./data/lastAccNum.txt");
-        lastAccNum<< 158694689012;
+        lastAccNum << 158694689012;
         lastAccNum.close();
         return 158694689012;
     }
@@ -36,24 +36,28 @@ string getValue(long long AccountNumber, string key) {
     }
     string data;
     string value;
+
     while (getline(Userfile, data)) {
-        int position = data.find(key);
+        size_t position = data.find(key);
         if (position != string::npos) {
-            int idx = data.find(":");
-            return data.substr(idx + 2);
+            size_t colonPos = data.find(":");
+            if (colonPos != string::npos && colonPos + 2 < data.size()) {
+                return data.substr(colonPos + 2);
+            }
         }
     }
+
     Userfile.close();
     return "";
 };
 
-void updateValue(long long accountNumber, string key, string value) {
+bool updateValue(long long accountNumber, string key, string value) {
     string path = "./data/Users/" + to_string(accountNumber) + ".txt";
     fstream file(path, ios::in);
 
     if (!file.is_open()) {
         cout << "Failed To Update!\n";
-        return;
+        return false;
     }
 
     vector<string> lines;
@@ -72,7 +76,7 @@ void updateValue(long long accountNumber, string key, string value) {
     ofstream outFile(path, ios::out | ios::trunc);
     if (!outFile.is_open()) {
         cout << "Failed To Update!\n";
-        return;
+        return false;
     }
 
     for (const string& l : lines) {
@@ -80,6 +84,7 @@ void updateValue(long long accountNumber, string key, string value) {
     }
 
     outFile.close();
+    return true;
 }
 
 long long saveUserDetails(string Fname, string Lname, string email, string password, string phoneNo, long long AccountNumber) {
@@ -130,9 +135,9 @@ void generateStatementTempelate(long long accountNumber) {
     if (!file || !Fname.length()) {
         return;
     }
-    file << "===========================================\n";
+    file << "==============================================\n";
     file << "            BANK ACCOUNT STATEMENT\n";
-    file << "===========================================\n\n";
+    file << "==============================================\n\n";
     file << "Account Holder :      " << Fname << " " << Lname << "\n";
     file << "Account Number :      " << accountNumber << "\n";
     file << "Phone Number   :      " << phoneNo << "\n";
