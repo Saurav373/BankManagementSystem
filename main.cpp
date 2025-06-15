@@ -32,7 +32,7 @@ int greetUser() {
     system("cls");
     int choice;
     cout << "============================================\n";
-    cout << "       WELCOME TO NEPAL RASTRYA BANK\n";
+    cout << "       WELCOME TO WORLD BANK\n";
     cout << "============================================\n\n";
     cout << "1) Register\n";
     cout << "2) Login\n";
